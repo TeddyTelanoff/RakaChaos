@@ -16,11 +16,11 @@ public partial class Spawner
 
 public partial class Asteroid
 {
+	public MeshFilter meshFilter;
 	private Mesh mesh;
 
 	public void MakeMesh()
 	{
-		mesh = new Mesh();
 		int numVerts = Random.Range(6, 12);
 		var verts = new Vector3[numVerts];
 
@@ -33,14 +33,11 @@ public partial class Asteroid
 			int prevIndex = i - 1;
 			ref Vector3 prevVert = ref verts[prevIndex];
 			verts[i] = prevVert + (Vector3) Random.insideUnitCircle;
-
-			indices[i * 3 + 0] = prevIndex;
-			indices[i * 3 + 1] = i;
-			indices[i * 3 + 2] = i + 1;
 		}
 
+		mesh = new Mesh();
 		mesh.vertices = verts;
-		mesh.triangles = indices;
 		mesh.RecalculateNormals();
+		meshFilter.mesh = mesh;
 	}
 }
